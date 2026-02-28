@@ -1,14 +1,22 @@
 export const dynamic = "force-dynamic";
-import { prisma } from "@/lib/prisma";
-
-export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export default async function DashboardPage() {
-  const [students, rooms, payments] = await Promise.all([
-    prisma.student.count(),
-    prisma.room.findMany(),
-    prisma.payment.findMany(),
-  ]);
+  let students = 0;
+  let rooms: { capacity: number; occupied: number }[] = [];
+  let payments: { status: string; amount: number }[] = [];
+  let loadError = false;
+
+  try {
+    const { prisma } = await import("@/lib/prisma");
+    [students, rooms, payments] = await Promise.all([
+      prisma.student.count(),
+      prisma.room.findMany({ select: { capacity: true, occupied: true } }),
+      prisma.payment.findMany({ select: { status: true, amount: true } }),
+    ]);
+  } catch {
+    loadError = true;
+  }
 
   const totalBeds = rooms.reduce((sum, room) => sum + room.capacity, 0);
   const occupiedBeds = rooms.reduce((sum, room) => sum + room.occupied, 0);
@@ -33,6 +41,15 @@ export default async function DashboardPage() {
       <p className="soft-text mt-1 text-sm">
         Quick snapshot of current hostel operations.
       </p>
+
+      {loadError ? (
+        <div className="panel mt-6 p-4 text-sm">
+          <p className="font-semibold">Unable to load dashboard data.</p>
+          <p className="soft-text mt-1">
+            Check your database connection and `DATABASE_URL` environment variable.
+          </p>
+        </div>
+      ) : null}
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {cards.map((card, index) => (

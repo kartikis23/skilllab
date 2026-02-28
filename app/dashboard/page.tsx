@@ -1,6 +1,8 @@
 export const dynamic = "force-dynamic";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   const [students, rooms, payments] = await Promise.all([
     prisma.student.count(),

@@ -46,6 +46,42 @@ npm run dev
 
 Open http://localhost:3000
 
+## Environment Variables
+
+Create a `.env` file in the project root:
+
+```bash
+cp .env.example .env
+```
+
+Required variables:
+
+- `DATABASE_URL`
+
+## Deploy (Next.js)
+
+This app is deployable as a standard Next.js app.
+
+### Option 1: Vercel (recommended)
+
+1. Push this repository to GitHub.
+2. Import the repo in Vercel.
+3. Add `DATABASE_URL` in **Project Settings → Environment Variables**.
+4. Deploy.
+
+### Option 2: Any Node host
+
+Use:
+
+- Build command: `npm run build`
+- Start command: `npm start`
+
+## Database Notes for Production
+
+- Current Prisma datasource uses SQLite (`provider = "sqlite"`).
+- SQLite file storage is usually not persistent on serverless platforms.
+- For real production usage, switch Prisma datasource to a managed database (for example PostgreSQL), run a Prisma migration, and set `DATABASE_URL` to that database connection string.
+
 ## Pages
 
 - `/` home

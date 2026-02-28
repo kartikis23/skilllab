@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  OVERDUE
+}
+
+model Room {
+  id         Int       @id @default(autoincrement())
+  roomNumber String    @unique
+  capacity   Int
+  occupied   Int       @default(0)
+  rent       Float
+  students   Student[]
+  payments   Payment[]
+  createdAt  DateTime  @default(now())
+}
+
+model Student {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  phone     String?
+  roomId    Int?
+  room      Room?     @relation(fields: [roomId], references: [id], onDelete: SetNull)
+  payments  Payment[]
+  createdAt DateTime  @default(now())
+}
+
+model Payment {
+  id        Int           @id @default(autoincrement())
+  studentId Int
+  roomId    Int?
+  amount    Float
+  dueDate   DateTime
+  paidAt    DateTime?
+  status    PaymentStatus @default(PENDING)
+  student   Student       @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  room      Room?         @relation(fields: [roomId], references: [id], onDelete: SetNull)
+  createdAt DateTime      @default(now())
+}

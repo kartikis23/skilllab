@@ -26,16 +26,25 @@ export default async function DashboardPage() {
 
   return (
     <section>
-      <h1 className="text-2xl font-semibold">Dashboard</h1>
-      <p className="mt-1 text-sm text-gray-600">
+      <h1 className="text-3xl font-black tracking-tight">Dashboard</h1>
+      <p className="soft-text mt-1 text-sm">
         Quick snapshot of current hostel operations.
       </p>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {cards.map((card) => (
-          <div key={card.label} className="rounded-xl border bg-white p-4">
-            <p className="text-sm text-gray-600">{card.label}</p>
-            <p className="mt-2 text-2xl font-semibold">{card.value}</p>
+        {cards.map((card, index) => (
+          <div key={card.label} className="panel p-5">
+            <p className="soft-text text-xs uppercase tracking-wide">{card.label}</p>
+            <p className="mt-2 text-3xl font-black tracking-tight">{card.value}</p>
+            <div
+              className={`mt-4 h-1.5 rounded-full ${
+                index % 3 === 0
+                  ? "bg-gradient-to-r from-orange-500 to-rose-400"
+                  : index % 3 === 1
+                    ? "bg-gradient-to-r from-emerald-500 to-teal-400"
+                    : "bg-gradient-to-r from-cyan-500 to-blue-400"
+              }`}
+            />
           </div>
         ))}
       </div>

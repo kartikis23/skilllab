@@ -49,13 +49,13 @@ export default function RoomsPage() {
 
   return (
     <section>
-      <h1 className="text-2xl font-semibold">Rooms</h1>
-      <p className="mt-1 text-sm text-gray-600">Track room capacity and occupancy.</p>
+      <h1 className="text-3xl font-black tracking-tight">Rooms</h1>
+      <p className="soft-text mt-1 text-sm">Track room capacity and occupancy.</p>
 
-      <form onSubmit={onSubmit} className="mt-6 grid gap-3 rounded-xl border bg-white p-4 md:grid-cols-3">
+      <form onSubmit={onSubmit} className="panel mt-6 grid gap-3 p-4 md:grid-cols-3">
         <input
           required
-          className="rounded border px-3 py-2"
+          className="input"
           placeholder="Room number"
           value={form.roomNumber}
           onChange={(e) =>
@@ -65,7 +65,7 @@ export default function RoomsPage() {
         <input
           required
           type="number"
-          className="rounded border px-3 py-2"
+          className="input"
           placeholder="Capacity"
           value={form.capacity}
           onChange={(e) => setForm((prev) => ({ ...prev, capacity: e.target.value }))}
@@ -73,26 +73,32 @@ export default function RoomsPage() {
         <input
           required
           type="number"
-          className="rounded border px-3 py-2"
+          className="input"
           placeholder="Monthly rent"
           value={form.rent}
           onChange={(e) => setForm((prev) => ({ ...prev, rent: e.target.value }))}
         />
-        <button className="rounded bg-black px-4 py-2 text-white md:col-span-3" type="submit">
+        <button className="btn-primary md:col-span-3" type="submit">
           Add Room
         </button>
       </form>
 
       <div className="mt-6 grid gap-4 md:grid-cols-2">
         {rooms.map((room) => (
-          <article key={room.id} className="rounded-xl border bg-white p-4">
-            <h2 className="text-lg font-semibold">{room.roomNumber}</h2>
-            <p className="mt-2 text-sm text-gray-600">
+          <article key={room.id} className="panel p-4">
+            <h2 className="text-lg font-bold tracking-wide">{room.roomNumber}</h2>
+            <p className="soft-text mt-2 text-sm">
               Occupancy: {room.occupied}/{room.capacity}
             </p>
-            <p className="text-sm text-gray-600">Rent: ₹{room.rent.toFixed(2)}</p>
+            <p className="soft-text text-sm">Rent: ₹{room.rent.toFixed(2)}</p>
+            <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/10">
+              <div
+                className="h-full bg-gradient-to-r from-cyan-400 to-blue-500"
+                style={{ width: `${Math.min((room.occupied / room.capacity) * 100, 100)}%` }}
+              />
+            </div>
             <button
-              className="mt-3 rounded border px-3 py-1 text-red-600"
+              className="btn-danger mt-3"
               onClick={() => deleteRoom(room.id)}
             >
               Delete

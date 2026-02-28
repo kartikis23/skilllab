@@ -71,13 +71,13 @@ export default function StudentsPage() {
 
   return (
     <section>
-      <h1 className="text-2xl font-semibold">Students</h1>
-      <p className="mt-1 text-sm text-gray-600">Register and assign students.</p>
+      <h1 className="text-3xl font-black tracking-tight">Students</h1>
+      <p className="soft-text mt-1 text-sm">Register and assign students.</p>
 
-      <form onSubmit={onSubmit} className="mt-6 grid gap-3 rounded-xl border bg-white p-4 md:grid-cols-4">
+      <form onSubmit={onSubmit} className="panel mt-6 grid gap-3 p-4 md:grid-cols-4">
         <input
           required
-          className="rounded border px-3 py-2"
+          className="input"
           placeholder="Full name"
           value={form.name}
           onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
@@ -85,19 +85,19 @@ export default function StudentsPage() {
         <input
           required
           type="email"
-          className="rounded border px-3 py-2"
+          className="input"
           placeholder="Email"
           value={form.email}
           onChange={(e) => setForm((prev) => ({ ...prev, email: e.target.value }))}
         />
         <input
-          className="rounded border px-3 py-2"
+          className="input"
           placeholder="Phone"
           value={form.phone}
           onChange={(e) => setForm((prev) => ({ ...prev, phone: e.target.value }))}
         />
         <select
-          className="rounded border px-3 py-2"
+          className="input"
           value={form.roomId}
           onChange={(e) => setForm((prev) => ({ ...prev, roomId: e.target.value }))}
         >
@@ -108,14 +108,14 @@ export default function StudentsPage() {
             </option>
           ))}
         </select>
-        <button className="rounded bg-black px-4 py-2 text-white md:col-span-4" type="submit">
+        <button className="btn-primary md:col-span-4" type="submit">
           Add Student
         </button>
       </form>
 
-      <div className="mt-6 overflow-hidden rounded-xl border bg-white">
+      <div className="table-shell mt-6">
         <table className="w-full text-sm">
-          <thead className="bg-gray-100 text-left">
+          <thead className="table-head text-left">
             <tr>
               <th className="px-4 py-3">Name</th>
               <th className="px-4 py-3">Email</th>
@@ -127,26 +127,30 @@ export default function StudentsPage() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={5} className="px-4 py-6 text-center text-gray-500">
+                <td colSpan={5} className="soft-text px-4 py-6 text-center">
                   Loading...
                 </td>
               </tr>
             ) : students.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-4 py-6 text-center text-gray-500">
+                <td colSpan={5} className="soft-text px-4 py-6 text-center">
                   No students found.
                 </td>
               </tr>
             ) : (
               students.map((student) => (
-                <tr key={student.id} className="border-t">
+                <tr key={student.id} className="table-row">
                   <td className="px-4 py-3">{student.name}</td>
-                  <td className="px-4 py-3">{student.email}</td>
-                  <td className="px-4 py-3">{student.phone ?? "-"}</td>
-                  <td className="px-4 py-3">{student.room?.roomNumber ?? "Unassigned"}</td>
+                  <td className="soft-text px-4 py-3">{student.email}</td>
+                  <td className="soft-text px-4 py-3">{student.phone ?? "-"}</td>
+                  <td className="px-4 py-3">
+                    <span className="rounded-full border border-white/20 bg-white/5 px-2.5 py-1 text-xs">
+                      {student.room?.roomNumber ?? "Unassigned"}
+                    </span>
+                  </td>
                   <td className="px-4 py-3">
                     <button
-                      className="rounded border px-3 py-1 text-red-600"
+                      className="btn-danger"
                       onClick={() => deleteStudent(student.id)}
                     >
                       Delete

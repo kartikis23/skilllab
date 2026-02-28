@@ -78,13 +78,13 @@ export default function PaymentsPage() {
 
   return (
     <section>
-      <h1 className="text-2xl font-semibold">Payments</h1>
-      <p className="mt-1 text-sm text-gray-600">Manage hostel fee payments.</p>
+      <h1 className="text-3xl font-black tracking-tight">Payments</h1>
+      <p className="soft-text mt-1 text-sm">Manage hostel fee payments.</p>
 
-      <form onSubmit={onSubmit} className="mt-6 grid gap-3 rounded-xl border bg-white p-4 md:grid-cols-4">
+      <form onSubmit={onSubmit} className="panel mt-6 grid gap-3 p-4 md:grid-cols-4">
         <select
           required
-          className="rounded border px-3 py-2"
+          className="input"
           value={form.studentId}
           onChange={(e) =>
             setForm((prev) => ({ ...prev, studentId: e.target.value }))
@@ -100,7 +100,7 @@ export default function PaymentsPage() {
         <input
           required
           type="number"
-          className="rounded border px-3 py-2"
+          className="input"
           placeholder="Amount"
           value={form.amount}
           onChange={(e) => setForm((prev) => ({ ...prev, amount: e.target.value }))}
@@ -108,12 +108,12 @@ export default function PaymentsPage() {
         <input
           required
           type="date"
-          className="rounded border px-3 py-2"
+          className="input"
           value={form.dueDate}
           onChange={(e) => setForm((prev) => ({ ...prev, dueDate: e.target.value }))}
         />
         <select
-          className="rounded border px-3 py-2"
+          className="input"
           value={form.status}
           onChange={(e) => setForm((prev) => ({ ...prev, status: e.target.value }))}
         >
@@ -123,14 +123,14 @@ export default function PaymentsPage() {
             </option>
           ))}
         </select>
-        <button className="rounded bg-black px-4 py-2 text-white md:col-span-4" type="submit">
+        <button className="btn-primary md:col-span-4" type="submit">
           Add Payment
         </button>
       </form>
 
-      <div className="mt-6 overflow-hidden rounded-xl border bg-white">
+      <div className="table-shell mt-6">
         <table className="w-full text-sm">
-          <thead className="bg-gray-100 text-left">
+          <thead className="table-head text-left">
             <tr>
               <th className="px-4 py-3">Student</th>
               <th className="px-4 py-3">Room</th>
@@ -143,20 +143,20 @@ export default function PaymentsPage() {
           <tbody>
             {payments.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-4 py-6 text-center text-gray-500">
+                <td colSpan={6} className="soft-text px-4 py-6 text-center">
                   No payments found.
                 </td>
               </tr>
             ) : (
               payments.map((payment) => (
-                <tr key={payment.id} className="border-t">
+                <tr key={payment.id} className="table-row">
                   <td className="px-4 py-3">{payment.student.name}</td>
-                  <td className="px-4 py-3">{payment.room?.roomNumber ?? "-"}</td>
-                  <td className="px-4 py-3">₹{payment.amount.toFixed(2)}</td>
-                  <td className="px-4 py-3">{payment.dueDate.slice(0, 10)}</td>
+                  <td className="soft-text px-4 py-3">{payment.room?.roomNumber ?? "-"}</td>
+                  <td className="px-4 py-3 font-semibold text-emerald-300">₹{payment.amount.toFixed(2)}</td>
+                  <td className="soft-text px-4 py-3">{payment.dueDate.slice(0, 10)}</td>
                   <td className="px-4 py-3">
                     <select
-                      className="rounded border px-2 py-1"
+                      className="input max-w-[140px] px-2 py-1"
                       value={payment.status}
                       onChange={(e) => updateStatus(payment.id, e.target.value)}
                     >
@@ -169,7 +169,7 @@ export default function PaymentsPage() {
                   </td>
                   <td className="px-4 py-3">
                     <button
-                      className="rounded border px-3 py-1 text-red-600"
+                      className="btn-danger"
                       onClick={() => deletePayment(payment.id)}
                     >
                       Delete

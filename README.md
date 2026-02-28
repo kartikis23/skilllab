@@ -1,12 +1,12 @@
 # Hostel Management System (Full-Stack)
 
-A full-stack hostel management application built with Next.js, Prisma, and SQLite.
+A full-stack hostel management application built with Next.js, Prisma, and PostgreSQL.
 
 ## Stack
 
 - Next.js (App Router + TypeScript)
 - Prisma ORM
-- SQLite database
+- PostgreSQL database (Neon / Supabase compatible)
 - Tailwind CSS
 
 ## Features
@@ -57,6 +57,14 @@ cp .env.example .env
 Required variables:
 
 - `DATABASE_URL`
+- `DIRECT_URL`
+
+Example `.env` values for Neon/Supabase:
+
+```env
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:6543/DB_NAME?sslmode=require"
+DIRECT_URL="postgresql://USER:PASSWORD@HOST:5432/DB_NAME?sslmode=require"
+```
 
 ## Deploy (Next.js)
 
@@ -78,9 +86,14 @@ Use:
 
 ## Database Notes for Production
 
-- Current Prisma datasource uses SQLite (`provider = "sqlite"`).
-- SQLite file storage is usually not persistent on serverless platforms.
-- For real production usage, switch Prisma datasource to a managed database (for example PostgreSQL), run a Prisma migration, and set `DATABASE_URL` to that database connection string.
+- Prisma datasource now uses PostgreSQL (`provider = "postgresql"`).
+- `DATABASE_URL` should use your pooled connection URL (recommended for serverless).
+- `DIRECT_URL` should use your direct/non-pooled URL (used by Prisma migration engine).
+- After setting env vars, run:
+
+```bash
+npx prisma migrate deploy
+```
 
 ## Pages
 
